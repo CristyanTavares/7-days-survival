@@ -54,7 +54,7 @@ export default function Header() {
             className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-montserrat font-semibold px-4 py-2.5 rounded-lg transition-all shadow-sm"
           >
             <Download className="w-4 h-4 text-amber-500" />
-            <span>Get Protocol (€7.90)</span>
+            <span>Get Protocol (€8.90)</span>
           </a>
         </div>
       </header>

@@ -31,7 +31,7 @@ export default function StickyBar() {
               The 7-Day Survival Protocol™ (150 Pages)
             </div>
             <div className="text-[11px] text-ink-500 font-montserrat font-medium hidden sm:block">
-              Core Manual + 6 Workbooks · €7.90
+              Core Manual + 6 Workbooks · €8.90
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@ export default function StickyBar() {
           href="#pricing"
           className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat"
         >
-          <span>Get Instant Access (€7.90)</span>
+          <span>Get Instant Access (€8.90)</span>
           <ArrowRight className="w-4 h-4 text-amber-500" />
         </a>
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ShieldCheck, Check, ArrowRight, Lock } from 'lucide-react'
 
 export default function PricingOffer() {
-  const BASE_CHECKOUT_URL = 'https://pay.wiapy.com/6ae7aeccc2ac364fc5638856'
+  const BASE_CHECKOUT_URL = 'https://pay.hotmart.com/R108349121R?checkoutMode=10'
 
   const [checkoutUrl, setCheckoutUrl] = useState(BASE_CHECKOUT_URL)
 
@@ -104,12 +104,12 @@ export default function PricingOffer() {
                   Regular €47.00
                 </span>
                 <span className="text-xs font-montserrat font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                  83% Civil Discount
+                  81% Civil Discount
                 </span>
               </div>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="text-3xl font-montserrat text-ink-950 font-bold">€</span>
-                <span className="text-5xl font-montserrat text-ink-950 font-bold tracking-tight">7.90</span>
+                <span className="text-5xl font-montserrat text-ink-950 font-bold tracking-tight">8.90</span>
                 <span className="text-xs text-ink-500 font-montserrat font-medium ml-2">One-time payment</span>
               </div>
               <div className="text-xs text-ink-500 mt-1 font-montserrat font-light">
@@ -121,7 +121,7 @@ export default function PricingOffer() {
               href={checkoutUrl}
               className="inline-flex items-center justify-center gap-3 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-lg px-8 py-5 rounded-2xl shadow-xl shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center shrink-0"
             >
-              <span>Get Immediate Access (€7.90)</span>
+              <span>Get Immediate Access (€8.90)</span>
               <ArrowRight className="w-5 h-5 text-amber-500" />
             </a>
           </div>

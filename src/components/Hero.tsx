@@ -332,12 +332,12 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
                     Regular Price: €47.00
                   </div>
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-3xl font-montserrat font-bold text-navy-900">€7.90</span>
+                    <span className="text-3xl font-montserrat font-bold text-navy-900">€8.90</span>
                     <span className="text-xs font-montserrat font-medium text-ink-500">(one-time payment)</span>
                   </div>
                 </div>
                 <span className="text-[11px] font-montserrat font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md">
-                  83% Civil Discount
+                  81% Civil Discount
                 </span>
               </div>
 
@@ -346,7 +346,7 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
                   href="#pricing"
                   className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center"
                 >
-                  <span>Order The 7-Day Protocol (€7.90)</span>
+                  <span>Order The 7-Day Protocol (€8.90)</span>
                   <ArrowRight className="w-4 h-4 text-amber-500" />
                 </a>
 

@@ -84,7 +84,7 @@ export default function TestimonialsCarousel() {
       country: 'Norway',
       flag: '🇳🇴',
       headline: 'Dignified and responsible without conspiracy paranoia.',
-      quote: 'After continuous Nordic news coverage regarding energy grid security and subsea infrastructure warnings, I wanted an authoritative guide written for normal adults. This protocol focuses on dignity, family warmth, and structured decisions. For €7.90 it is the best peace-of-mind purchase I have made this year.',
+      quote: 'After continuous Nordic news coverage regarding energy grid security and subsea infrastructure warnings, I wanted an authoritative guide written for normal adults. This protocol focuses on dignity, family warmth, and structured decisions. For €8.90 it is the best peace-of-mind purchase I have made this year.',
       context: 'Norwegian DSB Civil Directives',
       profile: 'Healthcare professional · Apartment owner',
     },
