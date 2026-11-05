@@ -1,20 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { ShieldCheck, Check, ArrowRight, Lock } from 'lucide-react'
+import { buildUrlWithCurrentParams, redirectTo } from '../utils/navigation'
 
 export default function PricingOffer() {
   const BASE_CHECKOUT_URL = 'https://pay.hotmart.com/R108349121R?checkoutMode=10'
 
-  const [checkoutUrl, setCheckoutUrl] = useState(BASE_CHECKOUT_URL)
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const search = window.location.search || ''
-      if (search) {
-        const delimiter = BASE_CHECKOUT_URL.includes('?') ? '&' : '?'
-        setCheckoutUrl(BASE_CHECKOUT_URL + delimiter + (search.startsWith('?') ? search.substring(1) : search))
-      }
-    }
-  }, [])
+  const handleCheckout = (e: React.MouseEvent) => {
+    e.preventDefault()
+    redirectTo(BASE_CHECKOUT_URL)
+  }
 
   return (
     <section id="pricing" className="py-20 bg-paper-100 border-b border-paper-300">
@@ -118,8 +112,9 @@ export default function PricingOffer() {
             </div>
 
             <a
-              href={checkoutUrl}
-              className="inline-flex items-center justify-center gap-3 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-lg px-8 py-5 rounded-2xl shadow-xl shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center shrink-0"
+              href={buildUrlWithCurrentParams(BASE_CHECKOUT_URL)}
+              onClick={handleCheckout}
+              className="inline-flex items-center justify-center gap-3 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-lg px-8 py-5 rounded-2xl shadow-xl shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center shrink-0 cursor-pointer"
             >
               <span>Get Immediate Access (€8.90)</span>
               <ArrowRight className="w-5 h-5 text-amber-500" />

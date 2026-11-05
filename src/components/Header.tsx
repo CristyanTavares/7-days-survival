@@ -1,5 +1,6 @@
 import React from 'react'
 import { Shield, Download } from 'lucide-react'
+import { redirectTo } from '../utils/navigation'
 
 export default function Header() {
   return (
@@ -51,7 +52,11 @@ export default function Header() {
 
           <a
             href="#pricing"
-            className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-montserrat font-semibold px-4 py-2.5 rounded-lg transition-all shadow-sm"
+            onClick={(e) => {
+              e.preventDefault()
+              redirectTo('#pricing')
+            }}
+            className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-montserrat font-semibold px-4 py-2.5 rounded-lg transition-all shadow-sm cursor-pointer"
           >
             <Download className="w-4 h-4 text-amber-500" />
             <span>Get Protocol (€8.90)</span>

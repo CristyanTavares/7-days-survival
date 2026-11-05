@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ArrowRight, ShieldCheck } from 'lucide-react'
+import { redirectTo } from '../utils/navigation'
 
 export default function StickyBar() {
   const [visible, setVisible] = useState(false)
@@ -38,7 +39,11 @@ export default function StickyBar() {
 
         <a
           href="#pricing"
-          className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat"
+          onClick={(e) => {
+            e.preventDefault()
+            redirectTo('#pricing')
+          }}
+          className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat cursor-pointer"
         >
           <span>Get Instant Access (€8.90)</span>
           <ArrowRight className="w-4 h-4 text-amber-500" />
