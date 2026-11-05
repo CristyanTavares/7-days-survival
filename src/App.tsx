@@ -12,27 +12,30 @@ import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import StickyBar from './components/StickyBar'
 import LightboxModal from './components/LightboxModal'
+import { CurrencyProvider } from './context/CurrencyContext'
 
 export default function App() {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
 
   return (
-    <div className="min-h-screen bg-paper-100 flex flex-col font-sans">
-      <Header />
-      <main className="flex-1">
-        <Hero onOpenLightbox={(src) => setLightboxSrc(src)} />
-        <OfficialContext />
-        <ChaptersDirectory onOpenLightbox={(src) => setLightboxSrc(src)} />
-        <DeliverableCarousel onOpenLightbox={(src) => setLightboxSrc(src)} />
-        <WorkbookBonus />
-        <LifestyleContext />
-        <TestimonialsCarousel />
-        <PricingOffer />
-        <FAQ />
-      </main>
-      <Footer />
-      <StickyBar />
-      <LightboxModal src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
-    </div>
+    <CurrencyProvider>
+      <div className="min-h-screen bg-paper-100 flex flex-col font-sans">
+        <Header />
+        <main className="flex-1">
+          <Hero onOpenLightbox={(src) => setLightboxSrc(src)} />
+          <OfficialContext />
+          <ChaptersDirectory onOpenLightbox={(src) => setLightboxSrc(src)} />
+          <DeliverableCarousel onOpenLightbox={(src) => setLightboxSrc(src)} />
+          <WorkbookBonus />
+          <LifestyleContext />
+          <TestimonialsCarousel />
+          <PricingOffer />
+          <FAQ />
+        </main>
+        <Footer />
+        <StickyBar />
+        <LightboxModal src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
+      </div>
+    </CurrencyProvider>
   )
 }

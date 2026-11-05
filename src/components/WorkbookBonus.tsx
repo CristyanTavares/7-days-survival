@@ -1,7 +1,9 @@
 import React from 'react'
+import { useCurrency } from '../context/CurrencyContext'
 import { FileCheck, ClipboardList, ShoppingBag, Salad, CreditCard, RotateCw } from 'lucide-react'
 
 export default function WorkbookBonus() {
+  const { currentCurrency } = useCurrency()
   const workbooks = [
     {
       num: '01',
@@ -115,7 +117,7 @@ export default function WorkbookBonus() {
             Total Combined Workbook Value
           </div>
           <div className="font-montserrat text-3xl sm:text-4xl font-bold text-navy-900">
-            €62.00
+            {currentCurrency.workbookValue}
           </div>
           <p className="text-sm text-ink-600 mt-2">
             Included entirely <strong>free of charge</strong> with your one-time purchase of The 7-Day Survival Protocol.

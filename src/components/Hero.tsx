@@ -1,4 +1,5 @@
 import { redirectTo } from '../utils/navigation'
+import { useCurrency } from '../context/CurrencyContext'
 import React, { useState } from 'react'
 import { 
   Play, Radio, Clock, Droplets, Utensils, Compass, 
@@ -26,6 +27,7 @@ interface NewsReport {
 }
 
 export default function Hero({ onOpenLightbox }: HeroProps) {
+  const { currency, setCurrency, currentCurrency } = useCurrency()
   // Mockup angle state - Only digital assets, completely removed physical "In-Hands" photo
   const [activeMockup, setActiveMockup] = useState('./Mockups/1.png')
 
@@ -330,16 +332,41 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
               <div className="flex items-baseline justify-between mb-3">
                 <div>
                   <div className="text-[11px] text-ink-500 font-montserrat line-through">
-                    Regular Price: €47.00
+                    Regular Price: {currentCurrency.symbol}{currentCurrency.regular}
                   </div>
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-3xl font-montserrat font-bold text-navy-900">€8.90</span>
+                    <span className="text-3xl font-montserrat font-bold text-navy-900">
+                      {currentCurrency.symbol}{currentCurrency.price}
+                    </span>
                     <span className="text-xs font-montserrat font-medium text-ink-500">(one-time payment)</span>
                   </div>
                 </div>
-                <span className="text-[11px] font-montserrat font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md">
-                  81% Civil Discount
-                </span>
+
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center bg-paper-100 border border-paper-300 rounded-lg p-0.5 text-[11px] font-montserrat">
+                    <button
+                      type="button"
+                      onClick={() => setCurrency('EUR')}
+                      className={`px-2 py-1 rounded transition-all cursor-pointer font-medium ${
+                        currency === 'EUR' ? 'bg-navy-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-950'
+                      }`}
+                    >
+                      € EUR
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrency('USD')}
+                      className={`px-2 py-1 rounded transition-all cursor-pointer font-medium ${
+                        currency === 'USD' ? 'bg-navy-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-950'
+                      }`}
+                    >
+                      $ USD
+                    </button>
+                  </div>
+                  <span className="text-[11px] font-montserrat font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md hidden sm:inline-block">
+                    {currentCurrency.discount} Off
+                  </span>
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -347,7 +374,7 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
                   href="#pricing" onClick={(e) => { e.preventDefault(); redirectTo("#pricing"); }}
                   className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center"
                 >
-                  <span>Order The 7-Day Protocol (€8.90)</span>
+                  <span>Order The 7-Day Protocol ({currentCurrency.symbol}{currentCurrency.price})</span>
                   <ArrowRight className="w-4 h-4 text-amber-500" />
                 </a>
 

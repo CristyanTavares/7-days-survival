@@ -25,3 +25,6 @@ dist-ssr
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Media
+*.mp4

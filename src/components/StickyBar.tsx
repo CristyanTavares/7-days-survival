@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { ArrowRight, ShieldCheck } from 'lucide-react'
 import { redirectTo } from '../utils/navigation'
+import { useCurrency } from '../context/CurrencyContext'
 
 export default function StickyBar() {
   const [visible, setVisible] = useState(false)
+  const { currentCurrency } = useCurrency()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,7 +34,7 @@ export default function StickyBar() {
               The 7-Day Survival Protocol™ (150 Pages)
             </div>
             <div className="text-[11px] text-ink-500 font-montserrat font-medium hidden sm:block">
-              Core Manual + 6 Workbooks · €8.90
+              Core Manual + 6 Workbooks · {currentCurrency.symbol}{currentCurrency.price}
             </div>
           </div>
         </div>
@@ -45,7 +47,7 @@ export default function StickyBar() {
           }}
           className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat cursor-pointer"
         >
-          <span>Get Instant Access (€8.90)</span>
+          <span>Get Instant Access ({currentCurrency.symbol}{currentCurrency.price})</span>
           <ArrowRight className="w-4 h-4 text-amber-500" />
         </a>
       </div>

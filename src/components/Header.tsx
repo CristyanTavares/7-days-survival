@@ -1,8 +1,11 @@
 import React from 'react'
 import { Shield, Download } from 'lucide-react'
 import { redirectTo } from '../utils/navigation'
+import { useCurrency } from '../context/CurrencyContext'
 
 export default function Header() {
+  const { currency, setCurrency, currentCurrency } = useCurrency()
+
   return (
     <>
       {/* Top Civil Contingency Notice - Fixed during entire scroll */}
@@ -26,7 +29,7 @@ export default function Header() {
 
       {/* Main Masthead - positioned below fixed notice bar */}
       <header className="mt-10 sm:mt-9 bg-white border-b border-paper-300 relative z-40 backdrop-blur-md bg-white/95">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-navy-900 text-amber-500 flex items-center justify-center text-lg font-bold shadow-sm">
               <Shield className="w-5 h-5 text-amber-500" />
@@ -41,7 +44,7 @@ export default function Header() {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-7 text-sm font-montserrat font-medium text-ink-700">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-montserrat font-medium text-ink-700">
             <a href="#directives" className="hover:text-navy-900 transition-colors">Official Directives</a>
             <a href="#chapters" className="hover:text-navy-900 transition-colors">The 12 Chapters</a>
             <a href="#deliverable" className="hover:text-navy-900 transition-colors">Inside the Book</a>
@@ -50,17 +53,41 @@ export default function Header() {
             <a href="#faq" className="hover:text-navy-900 transition-colors">FAQ</a>
           </nav>
 
-          <a
-            href="#pricing"
-            onClick={(e) => {
-              e.preventDefault()
-              redirectTo('#pricing')
-            }}
-            className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-montserrat font-semibold px-4 py-2.5 rounded-lg transition-all shadow-sm cursor-pointer"
-          >
-            <Download className="w-4 h-4 text-amber-500" />
-            <span>Get Protocol (€8.90)</span>
-          </a>
+          <div className="flex items-center gap-2.5">
+            {/* Quick Currency Selector */}
+            <div className="flex items-center bg-paper-100 border border-paper-300 rounded-lg p-0.5 text-xs font-montserrat">
+              <button
+                type="button"
+                onClick={() => setCurrency('EUR')}
+                className={`px-2 py-1 rounded transition-all cursor-pointer font-medium ${
+                  currency === 'EUR' ? 'bg-navy-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-950'
+                }`}
+              >
+                € EUR
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrency('USD')}
+                className={`px-2 py-1 rounded transition-all cursor-pointer font-medium ${
+                  currency === 'USD' ? 'bg-navy-900 text-white shadow-xs' : 'text-ink-600 hover:text-ink-950'
+                }`}
+              >
+                $ USD
+              </button>
+            </div>
+
+            <a
+              href="#pricing"
+              onClick={(e) => {
+                e.preventDefault()
+                redirectTo('#pricing')
+              }}
+              className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-montserrat font-semibold px-4 py-2.5 rounded-lg transition-all shadow-sm cursor-pointer whitespace-nowrap"
+            >
+              <Download className="w-4 h-4 text-amber-500" />
+              <span>Get Protocol ({currentCurrency.symbol}{currentCurrency.price})</span>
+            </a>
+          </div>
         </div>
       </header>
     </>

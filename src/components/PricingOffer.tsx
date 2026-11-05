@@ -1,8 +1,10 @@
 import React from 'react'
 import { ShieldCheck, Check, ArrowRight, Lock } from 'lucide-react'
 import { buildUrlWithCurrentParams, redirectTo } from '../utils/navigation'
+import { useCurrency } from '../context/CurrencyContext'
 
 export default function PricingOffer() {
+  const { currency, setCurrency, currentCurrency } = useCurrency()
   const BASE_CHECKOUT_URL = 'https://pay.hotmart.com/R108349121R?checkoutMode=10'
 
   const handleCheckout = (e: React.MouseEvent) => {
@@ -42,10 +44,31 @@ export default function PricingOffer() {
               </h3>
             </div>
 
-            {/* Currency Badge: EUR Only */}
-            <div className="inline-flex items-center gap-2 bg-paper-100 border border-paper-300 rounded-xl px-3.5 py-2 shrink-0 self-start sm:self-auto font-montserrat text-xs font-semibold text-navy-900">
-              <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
-              <span>European Standard · EUR (€)</span>
+            {/* Currency Selector Switcher */}
+            <div className="inline-flex items-center gap-1.5 bg-paper-100 border border-paper-300 rounded-xl p-1.5 shrink-0 self-start sm:self-auto font-montserrat">
+              <span className="text-[11px] font-medium text-ink-500 pl-2 pr-1 hidden sm:inline">Currency:</span>
+              <button
+                type="button"
+                onClick={() => setCurrency('EUR')}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  currency === 'EUR'
+                    ? 'bg-navy-900 text-white shadow-sm'
+                    : 'text-ink-600 hover:text-ink-950 hover:bg-paper-200'
+                }`}
+              >
+                EUR (€8.90)
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrency('USD')}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  currency === 'USD'
+                    ? 'bg-navy-900 text-white shadow-sm'
+                    : 'text-ink-600 hover:text-ink-950 hover:bg-paper-200'
+                }`}
+              >
+                USD ($9.90)
+              </button>
             </div>
           </div>
 
@@ -95,15 +118,15 @@ export default function PricingOffer() {
             <div>
               <div className="flex items-baseline gap-2">
                 <span className="text-sm text-ink-400 line-through font-montserrat">
-                  Regular €47.00
+                  Regular {currentCurrency.symbol}{currentCurrency.regular}
                 </span>
                 <span className="text-xs font-montserrat font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                  81% Civil Discount
+                  {currentCurrency.discount} Civil Discount
                 </span>
               </div>
               <div className="flex items-baseline gap-1 mt-1">
-                <span className="text-3xl font-montserrat text-ink-950 font-bold">€</span>
-                <span className="text-5xl font-montserrat text-ink-950 font-bold tracking-tight">8.90</span>
+                <span className="text-3xl font-montserrat text-ink-950 font-bold">{currentCurrency.symbol}</span>
+                <span className="text-5xl font-montserrat text-ink-950 font-bold tracking-tight">{currentCurrency.price}</span>
                 <span className="text-xs text-ink-500 font-montserrat font-medium ml-2">One-time payment</span>
               </div>
               <div className="text-xs text-ink-500 mt-1 font-montserrat font-light">
@@ -116,7 +139,7 @@ export default function PricingOffer() {
               onClick={handleCheckout}
               className="inline-flex items-center justify-center gap-3 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-lg px-8 py-5 rounded-2xl shadow-xl shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center shrink-0 cursor-pointer"
             >
-              <span>Get Immediate Access (€8.90)</span>
+              <span>Get Immediate Access ({currentCurrency.symbol}{currentCurrency.price})</span>
               <ArrowRight className="w-5 h-5 text-amber-500" />
             </a>
           </div>
