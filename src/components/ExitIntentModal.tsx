@@ -4,34 +4,64 @@ import { useCurrency } from '../context/CurrencyContext'
 import { redirectTo, buildUrlWithCurrentParams } from '../utils/navigation'
 import { CHECKOUT_URL } from '../config/checkout'
 
-const STORAGE_KEY = 'survival_exit_modal_shown_v1'
-
 export default function ExitIntentModal() {
   const [isOpen, setIsOpen] = useState(false)
   const { currentCurrency } = useCurrency()
+
+  const hasShownScrollOrMouseRef = useRef(false)
+  const hasShownBackRef = useRef(false)
   const hasReached30PercentRef = useRef(false)
   const lastScrollYRef = useRef(0)
   const lastScrollTimeRef = useRef(Date.now())
-  const historyPushedRef = useRef(false)
+  const userActivatedHistoryRef = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    if (sessionStorage.getItem(STORAGE_KEY) === '1') return
 
-    const triggerModal = () => {
-      if (sessionStorage.getItem(STORAGE_KEY) === '1') return
-      sessionStorage.setItem(STORAGE_KEY, '1')
-      setIsOpen(true)
+    // Push initial history entry on load
+    try {
+      window.history.replaceState({ survivalBase: true }, '', window.location.href)
+      window.history.pushState({ survivalGuard: true }, '', window.location.href)
+    } catch {
+      // ignore history errors
     }
 
-    // 1. Desktop Exit-Intent: mouse leaves top of viewport
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 10 && e.relatedTarget === null) {
-        triggerModal()
+    // Modern mobile browsers (Chrome Android, iOS Safari, Instagram/FB WebView)
+    // require history.pushState to be called inside a User Activation gesture
+    // (touchend / pointerup / click), otherwise they skip the history entry on Back press.
+    const armBackButtonOnGesture = () => {
+      if (userActivatedHistoryRef.current) return
+      userActivatedHistoryRef.current = true
+      try {
+        window.history.pushState({ survivalGuardActive: true }, '', window.location.href)
+      } catch {
+        // ignore
       }
     }
 
-    // 2. Scroll tracking: mark when 30% scroll depth is reached, then detect fast upward scroll
+    // 1. Mobile / Browser Back-Button Intercept (popstate)
+    const handlePopState = () => {
+      if (!hasShownBackRef.current) {
+        hasShownBackRef.current = true
+        hasShownScrollOrMouseRef.current = true
+        setIsOpen(true)
+        try {
+          window.history.pushState({ survivalModalOpen: true }, '', window.location.href)
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    // 2. Desktop Exit-Intent: mouse leaves top of viewport
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 10 && e.relatedTarget === null && !hasShownScrollOrMouseRef.current) {
+        hasShownScrollOrMouseRef.current = true
+        setIsOpen(true)
+      }
+    }
+
+    // 3. Scroll tracking: mark when 30% scroll depth is reached, then detect fast upward scroll
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop
       const docHeight = Math.max(
@@ -39,16 +69,6 @@ export default function ExitIntentModal() {
         1
       )
       const scrollPercent = scrollTop / docHeight
-
-      // Push history state once user starts scrolling so Mobile Back Button can be intercepted
-      if (scrollTop > 80 && !historyPushedRef.current && sessionStorage.getItem(STORAGE_KEY) !== '1') {
-        try {
-          window.history.pushState({ exitIntentGuard: true }, '', window.location.href)
-          historyPushedRef.current = true
-        } catch {
-          // ignore history errors
-        }
-      }
 
       if (scrollPercent >= 0.30) {
         hasReached30PercentRef.current = true
@@ -59,29 +79,34 @@ export default function ExitIntentModal() {
       const dy = scrollTop - lastScrollYRef.current
 
       // If user already scrolled past 30% and rapidly scrolls upward
-      if (hasReached30PercentRef.current && dy < -55 && dt < 180) {
-        triggerModal()
+      if (
+        hasReached30PercentRef.current &&
+        !hasShownScrollOrMouseRef.current &&
+        dy < -55 &&
+        dt < 180
+      ) {
+        hasShownScrollOrMouseRef.current = true
+        setIsOpen(true)
       }
 
       lastScrollYRef.current = scrollTop
       lastScrollTimeRef.current = now
     }
 
-    // 3. Mobile / Browser Back-Button Intercept
-    const handlePopState = () => {
-      if (sessionStorage.getItem(STORAGE_KEY) !== '1') {
-        triggerModal()
-      }
-    }
-
+    window.addEventListener('touchend', armBackButtonOnGesture, { passive: true })
+    window.addEventListener('pointerup', armBackButtonOnGesture, { passive: true })
+    window.addEventListener('click', armBackButtonOnGesture, { passive: true })
+    window.addEventListener('popstate', handlePopState)
     document.addEventListener('mouseleave', handleMouseLeave)
     window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('popstate', handlePopState)
 
     return () => {
+      window.removeEventListener('touchend', armBackButtonOnGesture)
+      window.removeEventListener('pointerup', armBackButtonOnGesture)
+      window.removeEventListener('click', armBackButtonOnGesture)
+      window.removeEventListener('popstate', handlePopState)
       document.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('popstate', handlePopState)
     }
   }, [])
 
