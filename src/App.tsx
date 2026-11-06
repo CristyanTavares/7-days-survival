@@ -12,6 +12,7 @@ import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import StickyBar from './components/StickyBar'
 import LightboxModal from './components/LightboxModal'
+import ExitIntentModal from './components/ExitIntentModal'
 import { CurrencyProvider } from './context/CurrencyContext'
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
         <Footer />
         <StickyBar />
         <LightboxModal src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
+        <ExitIntentModal />
       </div>
     </CurrencyProvider>
   )
