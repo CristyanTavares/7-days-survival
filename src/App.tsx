@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import StickyBar from './components/StickyBar'
 import LightboxModal from './components/LightboxModal'
 import ExitIntentModal from './components/ExitIntentModal'
+import { Analytics } from '@vercel/analytics/react'
 import { CurrencyProvider } from './context/CurrencyContext'
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
         <StickyBar />
         <LightboxModal src={lightboxSrc} onClose={() => setLightboxSrc(null)} />
         <ExitIntentModal />
+        <Analytics />
       </div>
     </CurrencyProvider>
   )
