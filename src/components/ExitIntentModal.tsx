@@ -133,7 +133,7 @@ export default function ExitIntentModal() {
           </h3>
 
           <p className="text-xs sm:text-sm text-ink-700 font-montserrat leading-relaxed mb-4">
-            When a power cut or crisis hits, cell towers and home Wi-Fi fail rapidly. You will not be able to search Google or open websites. Once downloaded, <strong>The 7-Day Survival Protocol™ requires zero internet to open</strong> on your phone, tablet, or in print. <strong>Be prepared!</strong>
+            When a power cut or crisis hits, cell towers and home Wi-Fi fail rapidly. You will not be able to search Google or open websites. Once downloaded, <strong>The 7-Day Survival Protocol™ requires zero internet to open</strong> on your phone, tablet, or in print. <strong>Be ready!</strong>
           </p>
 
           {/* Key Offline Advantages */}
@@ -171,10 +171,10 @@ export default function ExitIntentModal() {
           </div>
 
           <a
-            href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+            href={buildUrlWithCurrentParams(CHECKOUT_URL, 'exit_modal')}
             onClick={(e) => {
               e.preventDefault()
-              redirectTo(CHECKOUT_URL)
+              redirectTo(CHECKOUT_URL, 'exit_modal')
             }}
             className="w-full inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-6 py-4 rounded-2xl shadow-xl shadow-navy-900/25 transition-all hover:-translate-y-0.5 text-center cursor-pointer"
           >

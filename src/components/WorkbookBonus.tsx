@@ -125,10 +125,10 @@ export default function WorkbookBonus() {
             Included entirely <strong>free of charge</strong> with your one-time purchase of The 7-Day Survival Protocol.
           </p>
           <a
-            href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+            href={buildUrlWithCurrentParams(CHECKOUT_URL, 'workbooks_btn')}
             onClick={(e) => {
               e.preventDefault()
-              redirectTo(CHECKOUT_URL)
+              redirectTo(CHECKOUT_URL, 'workbooks_btn')
             }}
             className="inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-8 py-4 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 cursor-pointer"
           >

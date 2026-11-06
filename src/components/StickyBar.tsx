@@ -41,10 +41,10 @@ export default function StickyBar() {
         </div>
 
         <a
-          href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+          href={buildUrlWithCurrentParams(CHECKOUT_URL, 'sticky_bar')}
           onClick={(e) => {
             e.preventDefault()
-            redirectTo(CHECKOUT_URL)
+            redirectTo(CHECKOUT_URL, 'sticky_bar')
           }}
           className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat cursor-pointer"
         >

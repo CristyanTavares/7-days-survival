@@ -10,7 +10,7 @@ export default function PricingOffer() {
 
   const handleCheckout = (e: React.MouseEvent) => {
     e.preventDefault()
-    redirectTo(BASE_CHECKOUT_URL)
+    redirectTo(BASE_CHECKOUT_URL, 'pricing_card')
   }
 
   return (
@@ -136,7 +136,7 @@ export default function PricingOffer() {
             </div>
 
             <a
-              href={buildUrlWithCurrentParams(BASE_CHECKOUT_URL)}
+              href={buildUrlWithCurrentParams(BASE_CHECKOUT_URL, 'pricing_card')}
               onClick={handleCheckout}
               className="inline-flex items-center justify-center gap-3 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-lg px-8 py-5 rounded-2xl shadow-xl shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center shrink-0 cursor-pointer"
             >

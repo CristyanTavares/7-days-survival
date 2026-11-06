@@ -171,10 +171,10 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
             </div>
 
             <a
-              href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+              href={buildUrlWithCurrentParams(CHECKOUT_URL, 'hero_top_bar')}
               onClick={(e) => {
                 e.preventDefault()
-                redirectTo(CHECKOUT_URL)
+                redirectTo(CHECKOUT_URL, 'hero_top_bar')
               }}
               className="inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-6 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center cursor-pointer shrink-0"
             >
@@ -423,10 +423,10 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
-                  href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+                  href={buildUrlWithCurrentParams(CHECKOUT_URL, 'hero_btn')}
                   onClick={(e) => {
                     e.preventDefault()
-                    redirectTo(CHECKOUT_URL)
+                    redirectTo(CHECKOUT_URL, 'hero_btn')
                   }}
                   className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center cursor-pointer"
                 >
