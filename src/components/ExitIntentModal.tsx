@@ -8,60 +8,59 @@ export default function ExitIntentModal() {
   const [isOpen, setIsOpen] = useState(false)
   const { currentCurrency } = useCurrency()
 
-  const hasShownScrollOrMouseRef = useRef(false)
-  const hasShownBackRef = useRef(false)
+  const hasShownModalRef = useRef(false)
   const hasReached30PercentRef = useRef(false)
-  const lastScrollYRef = useRef(0)
-  const lastScrollTimeRef = useRef(Date.now())
-  const userActivatedHistoryRef = useRef(false)
+  const maxScrollYRef = useRef(0)
+  const historyArmedRef = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    // Push initial history entry on load
-    try {
-      window.history.replaceState({ survivalBase: true }, '', window.location.href)
-      window.history.pushState({ survivalGuard: true }, '', window.location.href)
-    } catch {
-      // ignore history errors
+    const openModalOnce = () => {
+      if (hasShownModalRef.current) return
+      hasShownModalRef.current = true
+      setIsOpen(true)
     }
 
-    // Modern mobile browsers (Chrome Android, iOS Safari, Instagram/FB WebView)
-    // require history.pushState to be called inside a User Activation gesture
-    // (touchend / pointerup / click), otherwise they skip the history entry on Back press.
-    const armBackButtonOnGesture = () => {
-      if (userActivatedHistoryRef.current) return
-      userActivatedHistoryRef.current = true
+    // Arm the "screen before the site" history state as soon as the browser grants User Activation (any tap/click).
+    // Note: In Chrome/Safari mobile, a scroll gesture (touchmove/touchend) does NOT grant userActivation;
+    // only a tap/click grants userActivation. So we check navigator.userActivation before locking historyArmedRef.
+    const tryArmHistoryGuard = () => {
+      if (historyArmedRef.current) return
+
+      const ua = (navigator as unknown as { userActivation?: { isActive?: boolean; hasBeenActive?: boolean } }).userActivation
+      const isActivated = ua ? Boolean(ua.isActive || ua.hasBeenActive) : true
+      if (!isActivated) return
+
+      historyArmedRef.current = true
       try {
-        window.history.pushState({ survivalGuardActive: true }, '', window.location.href)
+        // Entry #1 (the "screen before the site"): modal trigger state
+        window.history.replaceState({ survivalExitModal: true }, '', window.location.pathname + window.location.search)
+        // Entry #2 (current active view): main site state
+        window.history.pushState({ survivalMainSite: true }, '', window.location.pathname + window.location.search + '#protocol')
       } catch {
-        // ignore
+        // ignore history errors
       }
     }
 
-    // 1. Mobile / Browser Back-Button Intercept (popstate)
+    // 1. Mobile / Browser Back-Button Intercept:
+    // When user presses Back, browser moves from Entry #2 (#protocol) back to Entry #1, firing popstate
     const handlePopState = () => {
-      if (!hasShownBackRef.current) {
-        hasShownBackRef.current = true
-        hasShownScrollOrMouseRef.current = true
-        setIsOpen(true)
-        try {
-          window.history.pushState({ survivalModalOpen: true }, '', window.location.href)
-        } catch {
-          // ignore
-        }
+      if (!hasShownModalRef.current) {
+        openModalOnce()
       }
     }
 
     // 2. Desktop Exit-Intent: mouse leaves top of viewport
     const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 10 && e.relatedTarget === null && !hasShownScrollOrMouseRef.current) {
-        hasShownScrollOrMouseRef.current = true
-        setIsOpen(true)
+      if (e.clientY <= 10 && e.relatedTarget === null) {
+        openModalOnce()
       }
     }
 
-    // 3. Scroll tracking: mark when 30% scroll depth is reached, then detect fast upward scroll
+    // 3. Mobile & Desktop Scroll-Up Exit Intent:
+    // Once user reaches 30% of the page, track the deepest scroll point (maxScrollYRef).
+    // When they scroll back up by 160px+ from their deepest point, show the modal.
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop
       const docHeight = Math.max(
@@ -70,40 +69,37 @@ export default function ExitIntentModal() {
       )
       const scrollPercent = scrollTop / docHeight
 
+      if (scrollTop > maxScrollYRef.current) {
+        maxScrollYRef.current = scrollTop
+      }
+
       if (scrollPercent >= 0.30) {
         hasReached30PercentRef.current = true
       }
 
-      const now = Date.now()
-      const dt = Math.max(now - lastScrollTimeRef.current, 1)
-      const dy = scrollTop - lastScrollYRef.current
-
-      // If user already scrolled past 30% and rapidly scrolls upward
+      // If user has passed 30% of the page and scrolls upward at least 160px from their deepest point
       if (
         hasReached30PercentRef.current &&
-        !hasShownScrollOrMouseRef.current &&
-        dy < -55 &&
-        dt < 180
+        !hasShownModalRef.current &&
+        maxScrollYRef.current - scrollTop >= 160
       ) {
-        hasShownScrollOrMouseRef.current = true
-        setIsOpen(true)
+        openModalOnce()
       }
-
-      lastScrollYRef.current = scrollTop
-      lastScrollTimeRef.current = now
     }
 
-    window.addEventListener('touchend', armBackButtonOnGesture, { passive: true })
-    window.addEventListener('pointerup', armBackButtonOnGesture, { passive: true })
-    window.addEventListener('click', armBackButtonOnGesture, { passive: true })
+    window.addEventListener('click', tryArmHistoryGuard, { capture: true, passive: true })
+    window.addEventListener('pointerup', tryArmHistoryGuard, { capture: true, passive: true })
+    window.addEventListener('touchend', tryArmHistoryGuard, { capture: true, passive: true })
+    window.addEventListener('keydown', tryArmHistoryGuard, { capture: true, passive: true })
     window.addEventListener('popstate', handlePopState)
     document.addEventListener('mouseleave', handleMouseLeave)
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('touchend', armBackButtonOnGesture)
-      window.removeEventListener('pointerup', armBackButtonOnGesture)
-      window.removeEventListener('click', armBackButtonOnGesture)
+      window.removeEventListener('click', tryArmHistoryGuard, { capture: true })
+      window.removeEventListener('pointerup', tryArmHistoryGuard, { capture: true })
+      window.removeEventListener('touchend', tryArmHistoryGuard, { capture: true })
+      window.removeEventListener('keydown', tryArmHistoryGuard, { capture: true })
       window.removeEventListener('popstate', handlePopState)
       document.removeEventListener('mouseleave', handleMouseLeave)
       window.removeEventListener('scroll', handleScroll)
