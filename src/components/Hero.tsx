@@ -29,13 +29,13 @@ interface NewsReport {
 
 export default function Hero({ onOpenLightbox }: HeroProps) {
   const { currency, setCurrency, currentCurrency } = useCurrency()
-  // Mockup angle state - Only digital assets, completely removed physical "In-Hands" photo
-  const [activeMockup, setActiveMockup] = useState('./Mockups/1.png')
+  // Mockup angle state - WebP optimized digital assets
+  const [activeMockup, setActiveMockup] = useState('./Mockups/1.webp')
 
   const angles = [
-    { label: '3D Digital Edition', src: './Mockups/1.png' },
-    { label: 'Complete Collection', src: './Mockups/4.png' },
-    { label: 'Tablet & Desk View', src: './Mockups/3.png' },
+    { label: '3D Digital Edition', src: './Mockups/1.webp' },
+    { label: 'Complete Collection', src: './Mockups/4.webp' },
+    { label: 'Tablet & Desk View', src: './Mockups/3.webp' },
   ]
 
   // Video reports state with latest Channel 4 News video as #1 default + concrete briefing takeaways
@@ -122,11 +122,11 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
   }
 
   return (
-    <section className="pt-10 pb-16 md:pt-14 md:pb-20 bg-paper-100 border-b border-paper-300">
+    <section className="pt-8 pb-16 md:pt-12 md:pb-20 bg-paper-100 border-b border-paper-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         
         {/* Top Reference Badge */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-4 sm:mb-5">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-700 text-xs font-montserrat font-medium uppercase tracking-wider">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
             Document Reference: UK-EU-2026-RESILIENCE · CIVIL CONTINGENCY
@@ -134,7 +134,7 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
         </div>
 
         {/* Main Headline */}
-        <h1 className="font-montserrat text-3xl sm:text-4xl lg:text-5xl text-ink-950 font-semibold tracking-tight leading-[1.18] mb-5 text-center max-w-4xl mx-auto">
+        <h1 className="font-montserrat text-2xl sm:text-4xl lg:text-5xl text-ink-950 font-semibold tracking-tight leading-[1.18] mb-4 text-center max-w-4xl mx-auto">
           When the power cuts, taps run dry, and shop shelves empty... <br className="hidden sm:inline"/>
           <span className="font-bold text-navy-900">
             Will your family be ready for the next 7 days?
@@ -142,15 +142,63 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg text-ink-700 leading-relaxed max-w-3xl mx-auto text-center font-light mb-12">
+        <p className="text-sm sm:text-lg text-ink-700 leading-relaxed max-w-3xl mx-auto text-center font-light mb-6 sm:mb-8">
           As European and British governments urgently instruct citizens to stockpile essentials, discover the calm, practical protocol to protect your household with ordinary items from your weekly shop — without extreme prepper gear, wasted cash, or bunker fantasies.
         </p>
 
-        {/* Integrated 2-Column Showcase: The Problem (Broadcast News) vs The Solution (The Protocol) */}
+        {/* Immediate Above-The-Fold Primary CTA Strip */}
+        <div className="max-w-2xl mx-auto mb-8 sm:mb-10 bg-white border border-paper-300 rounded-2xl p-3.5 sm:p-4 shadow-md">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div className="flex items-center justify-between sm:justify-start gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-ink-400 line-through font-montserrat">
+                    {currentCurrency.symbol}{currentCurrency.regular}
+                  </span>
+                  <span className="text-[11px] font-montserrat font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
+                    {currentCurrency.discount} Off Today
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-1.5 mt-0.5">
+                  <span className="text-2xl sm:text-3xl font-montserrat font-bold text-navy-900">
+                    {currentCurrency.symbol}{currentCurrency.price}
+                  </span>
+                  <span className="text-[11px] font-montserrat text-ink-500 font-medium">
+                    · 150-Page PDF + 6 Workbooks
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+              onClick={(e) => {
+                e.preventDefault()
+                redirectTo(CHECKOUT_URL)
+              }}
+              className="inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-6 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center cursor-pointer shrink-0"
+            >
+              <span>Get Instant Access ({currentCurrency.symbol}{currentCurrency.price})</span>
+              <ArrowRight className="w-4 h-4 text-amber-500" />
+            </a>
+          </div>
+          <div className="mt-2.5 pt-2 border-t border-paper-200 flex flex-wrap items-center justify-center sm:justify-between gap-2 text-[11px] text-ink-500 font-montserrat">
+            <span className="flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Instant Digital Delivery (Read on Phone, Tablet, or Print)</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>7-Day Unconditional Money-Back Guarantee</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Integrated 2-Column Showcase: Product First on Mobile, Side-by-Side on Desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch mb-14">
           
-          {/* Column 1: The Verified News Broadcast (Channel 4 News / Sky / BBC) */}
-          <div className="lg:col-span-6 flex flex-col justify-between rounded-3xl bg-[#0a192f] border border-[#1e3a5f] p-4 sm:p-5 shadow-2xl">
+          {/* Column 1 (Desktop Left / Mobile Second): The Verified News Broadcast (Channel 4 News / Sky / BBC) */}
+          <div className="order-2 lg:order-1 lg:col-span-6 flex flex-col justify-between rounded-3xl bg-[#0a192f] border border-[#1e3a5f] p-4 sm:p-5 shadow-2xl">
             <div>
               {/* Monitor Top Status Bar */}
               <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#1e3a5f]/60 text-xs font-montserrat">
@@ -191,6 +239,7 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
                       alt={activeReport.title}
                       className="w-full h-full object-cover opacity-80 group-hover:opacity-90 group-hover:scale-102 transition-all duration-300"
                       loading="lazy"
+                      decoding="async"
                     />
 
                     {/* Gradient Overlay */}
@@ -281,8 +330,8 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
             </div>
           </div>
 
-          {/* Column 2: The Practical Solution (The 7-Day Survival Protocol - 100% Digital Download) */}
-          <div className="lg:col-span-6 flex flex-col justify-between bg-white border border-paper-300 rounded-3xl p-5 sm:p-6 shadow-xl shadow-paper-300/40">
+          {/* Column 2 (Mobile First / Desktop Right): The Practical Solution (The 7-Day Survival Protocol - 100% Digital Download) */}
+          <div className="order-1 lg:order-2 lg:col-span-6 flex flex-col justify-between bg-white border border-paper-300 rounded-3xl p-5 sm:p-6 shadow-xl shadow-paper-300/40">
             <div>
               {/* Product Header */}
               <div className="flex items-center justify-between gap-2 mb-3">
@@ -304,6 +353,8 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
                   src={activeMockup}
                   alt="The 7-Day Survival Protocol - Digital Pack"
                   className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-102"
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <div className="absolute bottom-2.5 right-2.5 bg-navy-900/80 backdrop-blur-sm text-white text-[10px] font-montserrat font-medium px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                   Click to inspect
@@ -372,8 +423,12 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
-                  href={buildUrlWithCurrentParams(CHECKOUT_URL)} onClick={(e) => { e.preventDefault(); redirectTo(CHECKOUT_URL); }}
-                  className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center"
+                  href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    redirectTo(CHECKOUT_URL)
+                  }}
+                  className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center cursor-pointer"
                 >
                   <span>Order The 7-Day Protocol ({currentCurrency.symbol}{currentCurrency.price})</span>
                   <ArrowRight className="w-4 h-4 text-amber-500" />

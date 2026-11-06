@@ -1,7 +1,12 @@
 import React from 'react'
-import { Check, X, Shield } from 'lucide-react'
+import { Check, X, Shield, ArrowRight } from 'lucide-react'
+import { redirectTo, buildUrlWithCurrentParams } from '../utils/navigation'
+import { CHECKOUT_URL } from '../config/checkout'
+import { useCurrency } from '../context/CurrencyContext'
 
 export default function LifestyleContext() {
+  const { currentCurrency } = useCurrency()
+
   return (
     <section className="py-20 bg-white border-b border-paper-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -11,8 +16,10 @@ export default function LifestyleContext() {
           <div className="lg:col-span-6">
             <div className="rounded-3xl overflow-hidden border border-paper-300 shadow-lg">
               <img
-                src="./Mockups/3.png"
+                src="./Mockups/3.webp"
                 alt="Emergency plan on wooden desk with domestic supplies"
+                loading="lazy"
+                decoding="async"
                 className="w-full object-cover"
               />
             </div>
@@ -35,10 +42,15 @@ export default function LifestyleContext() {
             </p>
 
             <a
-              href="#pricing"
-              className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-6 py-3.5 rounded-xl transition-all shadow-sm"
+              href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+              onClick={(e) => {
+                e.preventDefault()
+                redirectTo(CHECKOUT_URL)
+              }}
+              className="inline-flex items-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-6 py-3.5 rounded-xl transition-all shadow-sm cursor-pointer"
             >
-              <span>Download The Protocol Today</span>
+              <span>Download The Protocol Today ({currentCurrency.symbol}{currentCurrency.price})</span>
+              <ArrowRight className="w-4 h-4 text-amber-500" />
             </a>
           </div>
         </div>

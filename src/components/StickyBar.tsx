@@ -10,7 +10,7 @@ export default function StickyBar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 650) {
+      if (window.scrollY > 220) {
         setVisible(true)
       } else {
         setVisible(false)

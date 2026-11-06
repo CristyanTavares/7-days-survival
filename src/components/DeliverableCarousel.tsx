@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ChevronLeft, ChevronRight, Eye, Check } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye } from 'lucide-react'
 
 interface CarouselProps {
   onOpenLightbox: (src: string) => void
@@ -8,49 +8,49 @@ interface CarouselProps {
 export default function DeliverableCarousel({ onOpenLightbox }: CarouselProps) {
   const slides = [
     {
-      src: './deliverable_previews/page-001.png',
+      src: './deliverable_previews/page-001.webp',
       code: 'Page 001',
       title: 'Official Cover',
       desc: 'The complete UK & European civilian edition.',
     },
     {
-      src: './deliverable_previews/page-005.png',
+      src: './deliverable_previews/page-005.webp',
       code: 'Page 005',
       title: 'The 100-Page Route',
       desc: 'Master roadmap of essential household modules.',
     },
     {
-      src: './deliverable_previews/page-009.png',
+      src: './deliverable_previews/page-009.webp',
       code: 'Page 009',
       title: 'Your First Hour',
       desc: 'Immediate procedures when a normal day changes.',
     },
     {
-      src: './deliverable_previews/page-027.png',
+      src: './deliverable_previews/page-027.webp',
       code: 'Page 027',
       title: 'Water Calculation',
       desc: 'Accurate formulas for drinking, cooking & hygiene.',
     },
     {
-      src: './deliverable_previews/page-037.png',
+      src: './deliverable_previews/page-037.webp',
       code: 'Page 037',
       title: 'Food Stockpile',
       desc: 'Standard non-perishable pantry organization.',
     },
     {
-      src: './deliverable_previews/page-047.png',
+      src: './deliverable_previews/page-047.webp',
       code: 'Page 047',
       title: '7-Day Action Plan',
       desc: 'Complete nutrition without gas or electricity.',
     },
     {
-      src: './deliverable_previews/page-081.png',
+      src: './deliverable_previews/page-081.webp',
       code: 'Page 081',
       title: 'Stay or Evacuate',
       desc: 'Objective decision matrix for critical moments.',
     },
     {
-      src: './deliverable_previews/page-101.png',
+      src: './deliverable_previews/page-101.webp',
       code: 'Bonus B001',
       title: 'Household Profile',
       desc: 'Printable A4 worksheet for family emergency data.',
@@ -121,6 +121,8 @@ export default function DeliverableCarousel({ onOpenLightbox }: CarouselProps) {
                 <img
                   src={s.src}
                   alt={s.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-64 object-contain rounded-lg transition-transform duration-300 group-hover:scale-102"
                 />
                 <div className="absolute top-4 left-4 bg-navy-900/80 backdrop-blur-sm text-white font-montserrat font-medium text-[10px] px-2 py-0.5 rounded">

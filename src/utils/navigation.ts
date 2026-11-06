@@ -40,6 +40,16 @@ export function redirectTo(targetUrl: string): void {
     return
   }
 
+  // Dispara evento InitiateCheckout no Meta Pixel antes de redirecionar para o checkout
+  try {
+    const w = window as unknown as { fbq?: (...args: unknown[]) => void }
+    if (typeof w.fbq === 'function') {
+      w.fbq('track', 'InitiateCheckout')
+    }
+  } catch {
+    // ignore pixel errors
+  }
+
   const finalUrl = buildUrlWithCurrentParams(targetUrl)
   window.location.href = finalUrl
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useCurrency } from '../context/CurrencyContext'
-import { FileCheck, ClipboardList, ShoppingBag, Salad, CreditCard, RotateCw } from 'lucide-react'
+import { redirectTo, buildUrlWithCurrentParams } from '../utils/navigation'
+import { CHECKOUT_URL } from '../config/checkout'
+import { FileCheck, ClipboardList, ShoppingBag, Salad, CreditCard, RotateCw, ArrowRight } from 'lucide-react'
 
 export default function WorkbookBonus() {
   const { currentCurrency } = useCurrency()
@@ -119,9 +121,20 @@ export default function WorkbookBonus() {
           <div className="font-montserrat text-3xl sm:text-4xl font-bold text-navy-900">
             {currentCurrency.workbookValue}
           </div>
-          <p className="text-sm text-ink-600 mt-2">
+          <p className="text-sm text-ink-600 mt-2 mb-6">
             Included entirely <strong>free of charge</strong> with your one-time purchase of The 7-Day Survival Protocol.
           </p>
+          <a
+            href={buildUrlWithCurrentParams(CHECKOUT_URL)}
+            onClick={(e) => {
+              e.preventDefault()
+              redirectTo(CHECKOUT_URL)
+            }}
+            className="inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-8 py-4 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 cursor-pointer"
+          >
+            <span>Claim Complete Bundle + All 6 Workbooks ({currentCurrency.symbol}{currentCurrency.price})</span>
+            <ArrowRight className="w-4 h-4 text-amber-500" />
+          </a>
         </div>
 
       </div>
