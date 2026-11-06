@@ -1,4 +1,5 @@
-import { redirectTo } from '../utils/navigation'
+import { redirectTo, buildUrlWithCurrentParams } from '../utils/navigation'
+import { CHECKOUT_URL } from '../config/checkout'
 import { useCurrency } from '../context/CurrencyContext'
 import React, { useState } from 'react'
 import { 
@@ -371,7 +372,7 @@ export default function Hero({ onOpenLightbox }: HeroProps) {
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <a
-                  href="#pricing" onClick={(e) => { e.preventDefault(); redirectTo("#pricing"); }}
+                  href={buildUrlWithCurrentParams(CHECKOUT_URL)} onClick={(e) => { e.preventDefault(); redirectTo(CHECKOUT_URL); }}
                   className="flex-1 inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-montserrat font-semibold text-sm sm:text-base px-5 py-3.5 rounded-xl shadow-lg shadow-navy-900/20 transition-all hover:-translate-y-0.5 text-center"
                 >
                   <span>Order The 7-Day Protocol ({currentCurrency.symbol}{currentCurrency.price})</span>

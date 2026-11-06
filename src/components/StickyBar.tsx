@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ArrowRight, ShieldCheck } from 'lucide-react'
-import { redirectTo } from '../utils/navigation'
+import { redirectTo, buildUrlWithCurrentParams } from '../utils/navigation'
+import { CHECKOUT_URL } from '../config/checkout'
 import { useCurrency } from '../context/CurrencyContext'
 
 export default function StickyBar() {
@@ -40,10 +41,10 @@ export default function StickyBar() {
         </div>
 
         <a
-          href="#pricing"
+          href={buildUrlWithCurrentParams(CHECKOUT_URL)}
           onClick={(e) => {
             e.preventDefault()
-            redirectTo('#pricing')
+            redirectTo(CHECKOUT_URL)
           }}
           className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0 font-montserrat cursor-pointer"
         >

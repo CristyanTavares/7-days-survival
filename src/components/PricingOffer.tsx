@@ -2,10 +2,11 @@ import React from 'react'
 import { ShieldCheck, Check, ArrowRight, Lock } from 'lucide-react'
 import { buildUrlWithCurrentParams, redirectTo } from '../utils/navigation'
 import { useCurrency } from '../context/CurrencyContext'
+import { CHECKOUT_URL } from '../config/checkout'
 
 export default function PricingOffer() {
   const { currency, setCurrency, currentCurrency } = useCurrency()
-  const BASE_CHECKOUT_URL = 'https://pay.hotmart.com/R108349121R?checkoutMode=10'
+  const BASE_CHECKOUT_URL = CHECKOUT_URL
 
   const handleCheckout = (e: React.MouseEvent) => {
     e.preventDefault()
